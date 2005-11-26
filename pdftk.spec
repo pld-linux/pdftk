@@ -26,6 +26,18 @@ PDF document, unpack PDF attachments, burst a PDF document into single
 pages, uncompress and re-compress page streams, repair corrupted PDF
 (where possible).
 
+%description -l pl
+pdftk to proste narzêdzie do pracy codziennej z dokumentami PDF.
+Umo¿liwia ³±czenie dokumentów PDF, dzielenie stron PDF na nowe
+dokumenty, odszyfrowywanie wej¶cia w razie potrzeby (wymaga has³a),
+opcjonalne szyfrowanie wyj¶cia, dodawanie znaku wodnego, wype³nianie
+formularzy PDF z danymi FDF i/lub tworzenie raportów z formularzy na
+metrykach PDF wraz z metadanymi i zak³adkami, uaktualnianie metadanych
+PDF, do³±czanie plików do stron lub dokumentów PDF, rozpakowywanie
+za³±czników PDF, rozk³adanie dokumentu PDF na pojedyncze strony,
+dekompresjê lub ponown± kompresjê strumieni stron, naprawianie
+uszkodzonych plików PDF (w miarê mo¿liwo¶ci).
+
 %prep
 %setup -q
 
@@ -35,17 +47,16 @@ unset CLASSPATH
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_bindir}
-install -d $RPM_BUILD_ROOT/%{_mandir}/man1
-install pdftk/pdftk $RPM_BUILD_ROOT/%{_bindir}/pdftk
-install debian/pdftk.1 $RPM_BUILD_ROOT/%{_mandir}/man1/pdftk.1
-gzip $RPM_BUILD_ROOT/%{_mandir}/man1/pdftk.1
+install -d $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT%{_mandir}/man1
+install pdftk/pdftk $RPM_BUILD_ROOT%{_bindir}/pdftk
+install debian/pdftk.1 $RPM_BUILD_ROOT%{_mandir}/man1/pdftk.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc pdftk.1.html  pdftk.1.notes  pdftk.1.txt
+%doc pdftk.1.html pdftk.1.notes pdftk.1.txt
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
