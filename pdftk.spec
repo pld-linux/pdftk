@@ -30,7 +30,8 @@ pages, uncompress and re-compress page streams, repair corrupted PDF
 %setup -q
 
 %build
-unset CLASSPATH && cd pdftk && make -f Makefile.RedHat && cd -
+unset CLASSPATH
+%{__make} -f Makefile.RedHat -C pdftk
 
 %install
 rm -rf $RPM_BUILD_ROOT
