@@ -1,5 +1,5 @@
 Summary:	pdftk - the pdf tool kit
-Summary(pl):	pdftk - Zestaw narzêdzi dla plików PDF
+Summary(pl.UTF-8):   pdftk - Zestaw narzÄ™dzi dla plikÃ³w PDF
 Name:		pdftk
 Version:	1.12
 Release:	1
@@ -26,17 +26,17 @@ PDF document, unpack PDF attachments, burst a PDF document into single
 pages, uncompress and re-compress page streams, repair corrupted PDF
 (where possible).
 
-%description -l pl
-pdftk to proste narzêdzie do pracy codziennej z dokumentami PDF.
-Umo¿liwia ³±czenie dokumentów PDF, dzielenie stron PDF na nowe
-dokumenty, odszyfrowywanie wej¶cia w razie potrzeby (wymaga has³a),
-opcjonalne szyfrowanie wyj¶cia, dodawanie znaku wodnego, wype³nianie
-formularzy PDF z danymi FDF i/lub tworzenie raportów z formularzy na
-metrykach PDF wraz z metadanymi i zak³adkami, uaktualnianie metadanych
-PDF, do³±czanie plików do stron lub dokumentów PDF, rozpakowywanie
-za³±czników PDF, rozk³adanie dokumentu PDF na pojedyncze strony,
-dekompresjê lub ponown± kompresjê strumieni stron, naprawianie
-uszkodzonych plików PDF (w miarê mo¿liwo¶ci).
+%description -l pl.UTF-8
+pdftk to proste narzÄ™dzie do pracy codziennej z dokumentami PDF.
+UmoÅ¼liwia Å‚Ä…czenie dokumentÃ³w PDF, dzielenie stron PDF na nowe
+dokumenty, odszyfrowywanie wejÅ›cia w razie potrzeby (wymaga hasÅ‚a),
+opcjonalne szyfrowanie wyjÅ›cia, dodawanie znaku wodnego, wypeÅ‚nianie
+formularzy PDF z danymi FDF i/lub tworzenie raportÃ³w z formularzy na
+metrykach PDF wraz z metadanymi i zakÅ‚adkami, uaktualnianie metadanych
+PDF, doÅ‚Ä…czanie plikÃ³w do stron lub dokumentÃ³w PDF, rozpakowywanie
+zaÅ‚Ä…cznikÃ³w PDF, rozkÅ‚adanie dokumentu PDF na pojedyncze strony,
+dekompresjÄ™ lub ponownÄ… kompresjÄ™ strumieni stron, naprawianie
+uszkodzonych plikÃ³w PDF (w miarÄ™ moÅ¼liwoÅ›ci).
 
 %prep
 %setup -q
