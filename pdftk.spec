@@ -1,5 +1,5 @@
 Summary:	pdftk - the pdf tool kit
-Summary(pl.UTF-8):   pdftk - Zestaw narzędzi dla plików PDF
+Summary(pl.UTF-8):	pdftk - Zestaw narzędzi dla plików PDF
 Name:		pdftk
 Version:	1.12
 Release:	1
