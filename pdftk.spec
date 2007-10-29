@@ -1,12 +1,12 @@
 Summary:	pdftk - the pdf tool kit
 Summary(pl.UTF-8):	pdftk - Zestaw narzędzi dla plików PDF
 Name:		pdftk
-Version:	1.12
+Version:	1.41
 Release:	1
 License:	GPL
 Group:		Applications/Publishing
 Source0:	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
-# Source0-md5:	ec1b6d9e06109c6f05e19033f1d91d8a
+# Source0-md5:	7214230b937dc996d209c05b7b7b3518
 URL:		http://www.accesspdf.com/pdftk/
 BuildRequires:	gcc-java
 BuildRequires:	libgcj-devel
