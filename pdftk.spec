@@ -1,3 +1,7 @@
+# TODO:
+# - it does not build with libgcj 4.3:
+#   http://gcc.gnu.org/ml/java/2008-03/msg00033.html
+#
 Summary:	pdftk - the pdf tool kit
 Summary(pl.UTF-8):	pdftk - Zestaw narzędzi dla plików PDF
 Name:		pdftk
