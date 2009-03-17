@@ -11,6 +11,7 @@ License:	GPL
 Group:		Applications/Publishing
 Source0:	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
 # Source0-md5:	7214230b937dc996d209c05b7b7b3518
+Patch0:		%{name}-libgcj-4.3.patch
 URL:		http://www.accesspdf.com/pdftk/
 BuildRequires:	gcc-java
 BuildRequires:	libgcj-devel
@@ -44,6 +45,7 @@ uszkodzonych plików PDF (w miarę możliwości).
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 unset CLASSPATH
