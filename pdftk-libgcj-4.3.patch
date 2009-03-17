@@ -1,0 +1,219 @@
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/bc/asn1/Makefile pdftk-1.41/java_libs/com/lowagie/bc/asn1/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/bc/asn1/Makefile	2006-07-28 01:18:06.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/bc/asn1/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -25,8 +25,7 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/Makefile pdftk-1.41/java_libs/com/lowagie/text/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/Makefile	2006-07-26 23:14:34.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -25,14 +25,15 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+ 
+ all : $(library) $(headers)
+ 
++$(classes): $(sources)
++
+ $(library) : $(objects)
+ 	$(AR) $(ARFLAGS) $(library) $(objects);
+ 
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/markup/Makefile pdftk-1.41/java_libs/com/lowagie/text/markup/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/markup/Makefile	2006-07-26 23:14:54.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/markup/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -25,8 +25,7 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/codec/Makefile pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/codec/Makefile	2006-07-26 23:15:20.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -25,8 +25,7 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/codec/postscript/Makefile pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/postscript/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/codec/postscript/Makefile	2006-07-28 01:21:06.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/postscript/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -25,8 +25,7 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/codec/wmf/Makefile pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/wmf/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/codec/wmf/Makefile	2006-07-26 23:15:32.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/wmf/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -25,8 +25,7 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/fonts/Makefile pdftk-1.41/java_libs/com/lowagie/text/pdf/fonts/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/fonts/Makefile	2006-07-26 23:15:48.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/pdf/fonts/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -34,8 +34,7 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/Makefile pdftk-1.41/java_libs/com/lowagie/text/pdf/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/Makefile	2006-07-26 23:15:10.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/pdf/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -25,8 +25,7 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+@@ -37,4 +36,4 @@
+ 	$(AR) $(ARFLAGS) $(library) $(objects);
+ 
+ clean :
+-	$(RM) $(RMFLAGS) *.o *.h *.class *.a
++	$(RM) $(RMFLAGS) *.o *.h *.class *.a hyphenation/*.class
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/PdfEncryption.java pdftk-1.41/java_libs/com/lowagie/text/pdf/PdfEncryption.java
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/pdf/PdfEncryption.java	2006-07-27 02:02:28.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/pdf/PdfEncryption.java	2009-03-17 00:43:40.000000000 +0100
+@@ -50,7 +50,7 @@
+ 
+ package com.lowagie.text.pdf;
+ 
+-import java_local.security.MessageDigest; // ssteward
++import java.security.MessageDigest;
+ import com.lowagie.text.ExceptionConverter;
+ 
+ /**
+diff -ur pdftk-1.41.orig/java_libs/com/lowagie/text/xml/xmp/Makefile pdftk-1.41/java_libs/com/lowagie/text/xml/xmp/Makefile
+--- pdftk-1.41.orig/java_libs/com/lowagie/text/xml/xmp/Makefile	2006-07-27 02:53:34.000000000 +0200
++++ pdftk-1.41/java_libs/com/lowagie/text/xml/xmp/Makefile	2009-03-17 00:39:51.000000000 +0100
+@@ -25,8 +25,7 @@
+ # the "$*" automatic variable, here
+ #
+ %.h : %.class
+-	$(GCJH) --classpath="." $*;
+-	$(RM) $<
++	$(GCJH) --classpath="$(java_libs_root):$(PWD):." $*
+ 
+ ##
+ # targets
+diff -ur pdftk-1.41.orig/java_libs/Makefile pdftk-1.41/java_libs/Makefile
+--- pdftk-1.41.orig/java_libs/Makefile	2006-08-29 08:44:26.000000000 +0200
++++ pdftk-1.41/java_libs/Makefile	2009-03-17 00:43:40.000000000 +0100
+@@ -11,15 +11,9 @@
+ java_libs_root= $(CURDIR)
+ 
+ # append gcj flags
+-export GCJFLAGS+= --encoding=UTF-8 --classpath="$(java_libs_root)"
++export GCJFLAGS+= -w --encoding=UTF-8 --classpath="$(java_libs_root)"
+ 
+-all : libgcj_local itext
+-
+-libgcj_local :
+-	$(MAKE) -C "$(java_libs_root)/gnu_local/java/security";
+-	$(MAKE) -C "$(java_libs_root)/gnu_local/java/security/provider";
+-	$(MAKE) -C "$(java_libs_root)/gnu/gcj/convert";
+-	$(MAKE) -C "$(java_libs_root)/java_local/security";
++all : itext
+ 
+ itext :
+ 	$(MAKE) -C "$(java_libs_root)/com/lowagie/text";
+@@ -35,13 +29,7 @@
+ 	$(MAKE) -C "$(java_libs_root)/com/lowagie/bc/asn1";
+ 	$(MAKE) -C "$(java_libs_root)/com/lowagie/text/pdf/codec/postscript";
+ 
+-clean : libgcj_local_clean itext_clean
+-
+-libgcj_local_clean :
+-	$(MAKE) -iC "$(java_libs_root)/gnu_local/java/security" clean;
+-	$(MAKE) -iC "$(java_libs_root)/gnu_local/java/security/provider" clean;
+-	$(MAKE) -iC "$(java_libs_root)/gnu/gcj/convert" clean;
+-	$(MAKE) -iC "$(java_libs_root)/java_local/security" clean;
++clean : itext_clean
+ 
+ itext_clean :
+ 	$(MAKE) -iC "$(java_libs_root)/com/lowagie/text" clean;
+diff -ur pdftk-1.41.orig/pdftk/Makefile.Base pdftk-1.41/pdftk/Makefile.Base
+--- pdftk-1.41.orig/pdftk/Makefile.Base	2006-10-25 01:44:06.000000000 +0200
++++ pdftk-1.41/pdftk/Makefile.Base	2009-03-17 00:43:40.000000000 +0100
+@@ -31,18 +31,6 @@
+ afms= $(wildcard $(java_libs_root)/com/lowagie/text/pdf/fonts/*.afm)
+ afm_objects= $(patsubst %.afm, %.o, $(afms))
+ 
+-# older versions of libgcj might not have the MD5 algorithm,
+-# so I added it here; these *_local java files were grabbed from
+-# libgcj CVS on March 7, 2004; diffed September 5, 2006 w/ gcc 4.1.1
+-#
+-# gnu/gcj/convert/Input_UnicodeBig.java was grabbed March 26, 2004; diffed September 5, 2006 w/ gcc 4.1.1
+-#
+-libgcj_local_libs = \
+-$(java_libs_root)/java_local/security/security.a \
+-$(java_libs_root)/gnu_local/java/security/provider/provider.a \
+-$(java_libs_root)/gnu_local/java/security/security.a \
+-$(java_libs_root)/gnu/gcj/convert/convert.a
+-
+ # this must already be set according to your platform Makefile;
+ # we're just appending to it, here
+ #
+@@ -73,4 +61,4 @@
+ 
+ clean:
+ 	$(MAKE) -C $(java_libs_root) clean
+-	rm -vf *.o
++	rm -vf *.o pdftk
+diff -ur pdftk-1.41.orig/pdftk/Makefile.Generic pdftk-1.41/pdftk/Makefile.Generic
+--- pdftk-1.41.orig/pdftk/Makefile.Generic	2006-09-21 19:37:12.000000000 +0200
++++ pdftk-1.41/pdftk/Makefile.Generic	2009-03-17 00:43:40.000000000 +0100
+@@ -28,7 +28,7 @@
+ 
+ # itext compiler flags
+ # -O3 might cause pdftk to segfault on cat operation (gcc 3.4.4)
+-export GCJFLAGS= -O2
++export GCJFLAGS= -O2 -w
+ 
+ #
+ export ARFLAGS= rs
