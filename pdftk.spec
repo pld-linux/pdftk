@@ -1,22 +1,20 @@
-# TODO:
-# - it does not build with libgcj 4.3:
-#   http://gcc.gnu.org/ml/java/2008-03/msg00033.html
-#
 Summary:	pdftk - the pdf tool kit
 Summary(pl.UTF-8):	pdftk - Zestaw narzędzi dla plików PDF
 Name:		pdftk
 Version:	1.41
-Release:	5
+Release:	6
 License:	GPL
 Group:		Applications/Publishing
 Source0:	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
 # Source0-md5:	7214230b937dc996d209c05b7b7b3518
 Patch0:		%{name}-libgcj-4.3.patch
+Patch1:		%{name}-gcc-4.4.patch
 URL:		http://www.accesspdf.com/pdftk/
+BuildRequires:	dos2unix
 BuildRequires:	gcc-java
+BuildRequires:	jasper-devel
 BuildRequires:	libgcj-devel
 BuildRequires:	libwmf-devel
-BuildRequires:	jasper-devel
 Requires:	libgcj
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -46,6 +44,8 @@ uszkodzonych plików PDF (w miarę możliwości).
 %prep
 %setup -q
 %patch0 -p1
+dos2unix java_libs/com/lowagie/text/pdf/PdfDate.java
+%patch1 -p1
 
 %build
 unset CLASSPATH
