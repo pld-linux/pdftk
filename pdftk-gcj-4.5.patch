@@ -1,0 +1,143 @@
+diff -ur pdftk-1.41/java_libs/com/lowagie/bc/asn1/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/bc/asn1/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/bc/asn1/Makefile	2010-05-19 17:06:21.738863647 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/bc/asn1/Makefile	2010-05-19 17:04:10.332926945 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/com/lowagie/text/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/text/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/text/Makefile	2010-05-19 17:06:21.739863450 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/text/Makefile	2010-05-19 17:04:13.601051419 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/com/lowagie/text/markup/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/text/markup/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/text/markup/Makefile	2010-05-19 17:06:21.743863555 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/text/markup/Makefile	2010-05-19 17:04:16.802864453 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/codec/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/Makefile	2010-05-19 17:06:21.746869102 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/codec/Makefile	2010-05-19 17:04:22.705926050 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/postscript/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/codec/postscript/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/postscript/Makefile	2010-05-19 17:06:21.750926729 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/codec/postscript/Makefile	2010-05-19 17:04:26.085926158 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/wmf/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/codec/wmf/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/text/pdf/codec/wmf/Makefile	2010-05-19 17:06:21.753925790 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/codec/wmf/Makefile	2010-05-19 17:04:29.233051870 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/com/lowagie/text/pdf/fonts/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/fonts/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/text/pdf/fonts/Makefile	2010-05-19 17:06:21.756925753 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/fonts/Makefile	2010-05-19 17:04:32.196926770 +0200
+@@ -21,6 +21,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/com/lowagie/text/pdf/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/text/pdf/Makefile	2010-05-19 17:06:21.759931221 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/text/pdf/Makefile	2010-05-19 17:04:19.757863437 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/com/lowagie/text/xml/xmp/Makefile pdftk-1.41-dummy/java_libs/com/lowagie/text/xml/xmp/Makefile
+--- pdftk-1.41/java_libs/com/lowagie/text/xml/xmp/Makefile	2010-05-19 17:06:21.765925855 +0200
++++ pdftk-1.41-dummy/java_libs/com/lowagie/text/xml/xmp/Makefile	2010-05-19 17:04:35.221869279 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/gnu/gcj/convert/Makefile pdftk-1.41-dummy/java_libs/gnu/gcj/convert/Makefile
+--- pdftk-1.41/java_libs/gnu/gcj/convert/Makefile	2006-07-26 23:13:44.000000000 +0200
++++ pdftk-1.41-dummy/java_libs/gnu/gcj/convert/Makefile	2010-05-19 17:04:38.401926831 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/gnu_local/java/security/Makefile pdftk-1.41-dummy/java_libs/gnu_local/java/security/Makefile
+--- pdftk-1.41/java_libs/gnu_local/java/security/Makefile	2006-07-26 23:11:32.000000000 +0200
++++ pdftk-1.41-dummy/java_libs/gnu_local/java/security/Makefile	2010-05-19 17:03:46.195864029 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/gnu_local/java/security/provider/Makefile pdftk-1.41-dummy/java_libs/gnu_local/java/security/provider/Makefile
+--- pdftk-1.41/java_libs/gnu_local/java/security/provider/Makefile	2006-07-26 23:13:22.000000000 +0200
++++ pdftk-1.41-dummy/java_libs/gnu_local/java/security/provider/Makefile	2010-05-19 17:03:51.111863412 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
+diff -ur pdftk-1.41/java_libs/java_local/security/Makefile pdftk-1.41-dummy/java_libs/java_local/security/Makefile
+--- pdftk-1.41/java_libs/java_local/security/Makefile	2006-07-26 23:13:04.000000000 +0200
++++ pdftk-1.41-dummy/java_libs/java_local/security/Makefile	2010-05-19 17:03:38.619334324 +0200
+@@ -17,6 +17,7 @@
+ 
+ %.o : %.java
+ 	$(GCJ) $(GCJFLAGS) -c $< -o $@
++	objcopy -L '_ZGr8_$$_dummy' $@
+ 
+ %.class : %.java
+ 	$(GCJ) $(GCJFLAGS) -C $<
