@@ -2,13 +2,14 @@ Summary:	pdftk - the pdf tool kit
 Summary(pl.UTF-8):	pdftk - Zestaw narzędzi dla plików PDF
 Name:		pdftk
 Version:	1.41
-Release:	6
+Release:	7
 License:	GPL
 Group:		Applications/Publishing
 Source0:	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
 # Source0-md5:	7214230b937dc996d209c05b7b7b3518
 Patch0:		%{name}-libgcj-4.3.patch
 Patch1:		%{name}-gcc-4.4.patch
+Patch2:		%{name}-gcj-4.5.patch
 URL:		http://www.accesspdf.com/pdftk/
 BuildRequires:	dos2unix
 BuildRequires:	gcc-java
@@ -46,6 +47,8 @@ uszkodzonych plików PDF (w miarę możliwości).
 %patch0 -p1
 dos2unix java_libs/com/lowagie/text/pdf/PdfDate.java
 %patch1 -p1
+find -name Makefile | xargs dos2unix
+%patch2 -p1
 
 %build
 unset CLASSPATH
