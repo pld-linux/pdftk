@@ -11,6 +11,7 @@ Patch0:		%{name}-libgcj-4.3.patch
 Patch1:		%{name}-gcc-4.4.patch
 Patch2:		%{name}-gcj-4.5.patch
 URL:		http://www.accesspdf.com/pdftk/
+BuildRequires:	binutils
 BuildRequires:	dos2unix
 BuildRequires:	gcc-java
 BuildRequires:	jasper-devel
