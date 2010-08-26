@@ -16,6 +16,7 @@ BuildRequires:	dos2unix
 BuildRequires:	gcc-java
 BuildRequires:	jasper-devel
 BuildRequires:	libgcj-devel
+BuildRequires:	libstdc++-devel
 BuildRequires:	libwmf-devel
 Requires:	libgcj
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
