@@ -1,18 +1,16 @@
 Summary:	pdftk - the pdf tool kit
 Summary(pl.UTF-8):	pdftk - Zestaw narzędzi dla plików PDF
 Name:		pdftk
-Version:	1.41
-Release:	7
+Version:	1.44
+Release:	1
 License:	GPL
 Group:		Applications/Publishing
-Source0:	http://www.pdfhacks.com/pdftk/%{name}-%{version}.tar.bz2
-# Source0-md5:	7214230b937dc996d209c05b7b7b3518
-Patch0:		%{name}-libgcj-4.3.patch
-Patch1:		%{name}-gcc-4.4.patch
-Patch2:		%{name}-gcj-4.5.patch
-URL:		http://www.accesspdf.com/pdftk/
+Source0:	http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/%{name}-%{version}-src.zip
+# Source0-md5:	9eb50fffcd621a627d387750c60982b4
+URL:		http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/
 BuildRequires:	binutils
 BuildRequires:	dos2unix
+BuildRequires:	fastjar
 BuildRequires:	gcc-java
 BuildRequires:	jasper-devel
 BuildRequires:	libgcj-devel
@@ -45,29 +43,29 @@ dekompresję lub ponowną kompresję strumieni stron, naprawianie
 uszkodzonych plików PDF (w miarę możliwości).
 
 %prep
-%setup -q
-%patch0 -p1
-dos2unix java_libs/com/lowagie/text/pdf/PdfDate.java
-%patch1 -p1
-find -name Makefile | xargs dos2unix
-%patch2 -p1
+%setup -q -n %{name}-%{version}-dist
+#patch0 -p1
+#dos2unix java_libs/com/lowagie/text/pdf/PdfDate.java
+#patch1 -p1
+#find -name Makefile | xargs dos2unix
+#patch2 -p1
 
 %build
 unset CLASSPATH
-%{__make} -j1 -f Makefile.RedHat -C pdftk
+%{__make} -j1 -f Makefile.Redhat -C pdftk
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_bindir}
 install -d $RPM_BUILD_ROOT%{_mandir}/man1
 install pdftk/pdftk $RPM_BUILD_ROOT%{_bindir}/pdftk
-install debian/pdftk.1 $RPM_BUILD_ROOT%{_mandir}/man1/pdftk.1
+install pdftk.1 $RPM_BUILD_ROOT%{_mandir}/man1/pdftk.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc pdftk.1.html pdftk.1.notes pdftk.1.txt
+%doc changelog.html
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
