@@ -16,6 +16,7 @@ BuildRequires:	jasper-devel
 BuildRequires:	libgcj-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libwmf-devel
+BuildRequires:	unzip
 Requires:	libgcj
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
