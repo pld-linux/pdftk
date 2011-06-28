@@ -10,7 +10,7 @@ Source0:	http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/%{name}-%{version}-s
 URL:		http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/
 BuildRequires:	binutils
 BuildRequires:	dos2unix
-BuildRequires:	fastjar
+BuildRequires:	jar
 BuildRequires:	gcc-java
 BuildRequires:	jasper-devel
 BuildRequires:	libgcj-devel
