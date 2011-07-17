@@ -48,7 +48,7 @@ uszkodzonych plików PDF (w miarę możliwości).
 %prep
 %setup -q -n %{name}-%{version}-dist
 %patch0 -p1
-%patch1 -p1
+%patch1 -p0
 
 # remove bundled libraries from source tree
 %{__rm} -r java
