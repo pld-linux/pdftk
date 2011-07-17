@@ -1,0 +1,343 @@
+diff -rupN pdftk-1.44-dist.old/pdftk/attachments.cc pdftk-1.44-dist/pdftk/attachments.cc
+--- pdftk-1.44-dist.old/pdftk/attachments.cc	2010-10-27 15:16:19.000000000 -0400
++++ pdftk-1.44-dist/pdftk/attachments.cc	2011-01-09 15:19:32.000000000 -0500
+@@ -56,7 +56,10 @@
+ 
+ #include "com/lowagie/text/Document.h"
+ #include "com/lowagie/text/Rectangle.h"
++// Ewww, PdfName has a field called NULL.
++#undef NULL
+ #include "com/lowagie/text/pdf/PdfName.h"
++#define NULL __null
+ #include "com/lowagie/text/pdf/PdfString.h"
+ #include "com/lowagie/text/pdf/PdfNumber.h"
+ #include "com/lowagie/text/pdf/PdfArray.h"
+@@ -151,8 +154,8 @@ TK_Session::attach_files
+ 
+ 					itext::Rectangle* crop_box_p= 
+ 						input_reader_p->getCropBox( m_input_attach_file_pagenum );
+-					float corner_top= crop_box_p->top()- margin;
+-					float corner_left= crop_box_p->left()+ margin;
++					float corner_top= crop_box_p->getTop()- margin;
++					float corner_left= crop_box_p->getLeft()+ margin;
+ 
+ 					itext::PdfArray* annots_p= (itext::PdfArray*)
+ 						input_reader_p->getPdfObject( page_p->get( itext::PdfName::ANNOTS ) );
+@@ -190,11 +193,11 @@ TK_Session::attach_files
+ 								string filename= drop_path(*vit);
+ 
+ 								// wrap our location over page bounds, if needed
+-								if( crop_box_p->right() < corner_left+ trans ) {
+-									corner_left= crop_box_p->left()+ margin;
++								if( crop_box_p->getRight() < corner_left+ trans ) {
++									corner_left= crop_box_p->getLeft()+ margin;
+ 								}
+-								if( corner_top- trans< crop_box_p->bottom() ) {
+-									corner_top= crop_box_p->top()- margin;
++								if( corner_top- trans< crop_box_p->getBottom() ) {
++									corner_top= crop_box_p->getTop()- margin;
+ 								}
+ 
+ 								itext::Rectangle* annot_bbox_p= 
+diff -rupN pdftk-1.44-dist.old/pdftk/Makefile.Base pdftk-1.44-dist/pdftk/Makefile.Base
+--- pdftk-1.44-dist.old/pdftk/Makefile.Base	2010-10-28 17:19:18.000000000 -0400
++++ pdftk-1.44-dist/pdftk/Makefile.Base	2011-01-09 15:24:09.000000000 -0500
+@@ -16,7 +16,7 @@
+ 
+ export JAVALIBPATH= ../java
+ 
+-JAVALIB= $(JAVALIBPATH)/java_lib.o
++JAVALIB= $(LIBDIR)/gcj/itext/itext-$(ITEXTVERS).jar.so
+ 
+ ifdef USE_LOCAL_LIBGCJ
+ # passed on to next makefile
+@@ -29,7 +29,7 @@ endif
+ #
+ CPPFLAGS+= -DPDFTK_VER=\"1.44\"
+ 
+-all : javalib pdftk
++all : pdftk
+ 
+ javalib :
+ 	$(MAKE) -f Makefile -iC $(JAVALIBPATH) all
+diff -rupN pdftk-1.44-dist.old/pdftk/Makefile.Redhat pdftk-1.44-dist/pdftk/Makefile.Redhat
+--- pdftk-1.44-dist.old/pdftk/Makefile.Redhat	2010-09-16 14:23:20.000000000 -0400
++++ pdftk-1.44-dist/pdftk/Makefile.Redhat	2011-01-09 17:00:40.000000000 -0500
+@@ -72,9 +72,9 @@ export RMFLAGS= -vf
+ # only effects libraries following option on the command line
+ #
+ #  
+-export CPPFLAGS= -DPATH_DELIM=0x2f -DASK_ABOUT_WARNINGS=false -DUNBLOCK_SIGNALS -fdollars-in-identifiers
+-export CXXFLAGS= -Wall -Wextra -Weffc++ -O2
+-export GCJFLAGS= -Wall -Wextra -O2
++export CPPFLAGS= -DPATH_DELIM=0x2f -DASK_ABOUT_WARNINGS=false -DUNBLOCK_SIGNALS -fdollars-in-identifiers ${CFLAGS} -fpic
++export CXXFLAGS= -Wall -Wextra -Weffc++ -O2 ${CFLAGS} -fpic
++export GCJFLAGS= -Wall -Wextra -O2 ${CFLAGS} -fpic
+ export GCJHFLAGS= -force
+ export LDLIBS= -lgcj
+ 
+diff -rupN pdftk-1.44-dist.old/pdftk/pdftk.cc pdftk-1.44-dist/pdftk/pdftk.cc
+--- pdftk-1.44-dist.old/pdftk/pdftk.cc	2010-10-28 17:18:31.000000000 -0400
++++ pdftk-1.44-dist/pdftk/pdftk.cc	2011-01-09 18:28:28.000000000 -0500
+@@ -59,7 +59,10 @@
+ 
+ #include "com/lowagie/text/Document.h"
+ #include "com/lowagie/text/Rectangle.h"
++// Ewww, PdfName has a field called NULL.
++#undef NULL
+ #include "com/lowagie/text/pdf/PdfName.h"
++#define NULL __null
+ #include "com/lowagie/text/pdf/PdfString.h"
+ #include "com/lowagie/text/pdf/PdfNumber.h"
+ #include "com/lowagie/text/pdf/PdfArray.h"
+@@ -193,15 +196,20 @@ TK_Session::add_reader( InputPdf* input_
+ 		// store in this java object so the gc can trace it
+ 		g_dont_collect_p->addElement( reader );
+ 
+-		input_pdf_p->m_authorized_b= ( !reader->encrypted || reader->passwordIsOwner );
++		input_pdf_p->m_authorized_b= reader->isOpenedWithFullPermissions();
+ 		if( !input_pdf_p->m_authorized_b ) {
+ 			open_success_b= false;
+ 		}
+ 	}
+ 	catch( java::io::IOException* ioe_p ) { // file open error
+-		if( ioe_p->getMessage()->equals( JvNewStringUTF( "Bad password" ) ) ) {
++		if( ioe_p->getMessage()->equals( JvNewStringUTF( "Bad user password" ) ) ) {
+ 			input_pdf_p->m_authorized_b= false;
+ 		}
++		else {
++			cerr << string((const char*) elements(ioe_p->getMessage()->getBytes()),
++										 (int) ioe_p->getMessage()->getBytes()->length)
++					 << endl;
++		}
+ 		open_success_b= false;
+ 	}
+ 	catch( java::lang::Throwable* t_p ) { // unexpected error
+@@ -2182,14 +2190,14 @@ TK_Session::create_output()
+ 				output_doc_p->addCreator( jv_creator_p );
+ 
+ 				// un/compress output streams?
+-				if( m_output_uncompress_b ) {
+-					writer_p->filterStreams= true;
+-					writer_p->compressStreams= false;
+-				}
+-				else if( m_output_compress_b ) {
+-					writer_p->filterStreams= false;
+-					writer_p->compressStreams= true;
+-				}
++//				if( m_output_uncompress_b ) {
++//					writer_p->filterStreams= true;
++//					writer_p->compressStreams= false;
++//				}
++//				else if( m_output_compress_b ) {
++//					writer_p->filterStreams= false;
++//					writer_p->compressStreams= true;
++//				}
+ 
+ 				// encrypt output?
+ 				if( m_output_encryption_strength!= none_enc ||
+@@ -2198,7 +2206,7 @@ TK_Session::create_output()
+ 					{
+ 						// if no stregth is given, default to 128 bit,
+ 						// (which is incompatible w/ Acrobat 4)
+-						bool bit128_b=
++						jboolean bit128_b=
+ 							( m_output_encryption_strength!= bits40_enc );
+ 
+ 						writer_p->setEncryption( output_user_pw_p,
+@@ -2222,7 +2230,8 @@ TK_Session::create_output()
+ 							input_reader_p->getPdfObject( trailer_p->get( itext::PdfName::ID ) );
+ 						if( file_id_p && file_id_p->isArray() ) {
+ 
+-							writer_p->setFileID( file_id_p );
++							// Absent from itext-2.1.7
++//							writer_p->setFileID( file_id_p );
+ 						}
+ 					}
+ 
+@@ -2328,12 +2337,14 @@ TK_Session::create_output()
+ 
+ 					// un/compress output streams?
+ 					if( m_output_uncompress_b ) {
+-						writer_p->filterStreams= true;
+-						writer_p->compressStreams= false;
++					// Absent from itext-2.1.7
++//						writer_p->filterStreams= true;
++//						writer_p->compressStreams= false;
+ 					}
+ 					else if( m_output_compress_b ) {
+-						writer_p->filterStreams= false;
+-						writer_p->compressStreams= true;
++						// Absent from itext-2.1.7
++//						writer_p->filterStreams= false;
++//						writer_p->compressStreams= true;
+ 					}
+ 
+ 					// encrypt output?
+@@ -2343,7 +2354,7 @@ TK_Session::create_output()
+ 						{
+ 							// if no stregth is given, default to 128 bit,
+ 							// (which is incompatible w/ Acrobat 4)
+-							bool bit128_b=
++							jboolean bit128_b=
+ 								( m_output_encryption_strength!= bits40_enc );
+ 
+ 							writer_p->setEncryption( output_user_pw_p,
+@@ -2589,13 +2600,15 @@ TK_Session::create_output()
+ 				// un/compress output streams?
+ 				if( m_output_uncompress_b ) {
+ 					add_marks_to_pages( input_reader_p );
+-					writer_p->filterStreams= true;
+-					writer_p->compressStreams= false;
++					// Absent from itext-2.1.7
++//					writer_p->filterStreams= true;
++//					writer_p->compressStreams= false;
+ 				}
+ 				else if( m_output_compress_b ) {
+ 					remove_marks_from_pages( input_reader_p );
+-					writer_p->filterStreams= false;
+-					writer_p->compressStreams= true;
++					// Absent from itext-2.1.7
++//					writer_p->filterStreams= false;
++//					writer_p->compressStreams= true;
+ 				}
+ 
+ 				// encrypt output?
+@@ -2606,7 +2619,7 @@ TK_Session::create_output()
+ 
+ 						// if no stregth is given, default to 128 bit,
+ 						// (which is incompatible w/ Acrobat 4)
+-						bool bit128_b=
++						jboolean bit128_b=
+ 							( m_output_encryption_strength!= bits40_enc );
+ 
+ 						writer_p->setEncryption( output_user_pw_p,
+@@ -2621,8 +2634,10 @@ TK_Session::create_output()
+ 					{
+ 						itext::AcroFields* fields_p= writer_p->getAcroFields();
+ 						fields_p->setGenerateAppearances( true ); // have iText create field appearances
+-						if( ( fdf_reader_p && fields_p->setFields( fdf_reader_p ) ) ||
+-								( xfdf_reader_p && fields_p->setFields( xfdf_reader_p ) ) )
++						if( fdf_reader_p )
++							fields_p->setFields( fdf_reader_p );
++						if(     xfdf_reader_p )
++							fields_p->setFields( xfdf_reader_p );
+ 							{ // Rich Text input found
+ 
+ 								// set the PDF so that Acrobat will create appearances;
+@@ -2688,16 +2703,16 @@ TK_Session::create_output()
+ 							doc_page_size_p= doc_page_size_p->rotate();
+ 						}
+ 
+-						jfloat h_scale= doc_page_size_p->width() / mark_page_size_p->width();
+-						jfloat v_scale= doc_page_size_p->height() / mark_page_size_p->height();
++						jfloat h_scale= doc_page_size_p->getWidth() / mark_page_size_p->getWidth();
++						jfloat v_scale= doc_page_size_p->getHeight() / mark_page_size_p->getHeight();
+ 						jfloat mark_scale= (h_scale< v_scale) ? h_scale : v_scale;
+ 
+-						jfloat h_trans= (jfloat)(doc_page_size_p->left()- mark_page_size_p->left()* mark_scale +
+-																		 (doc_page_size_p->width()- 
+-																			mark_page_size_p->width()* mark_scale) / 2.0);
+-						jfloat v_trans= (jfloat)(doc_page_size_p->bottom()- mark_page_size_p->bottom()* mark_scale +
+-																		 (doc_page_size_p->height()- 
+-																			mark_page_size_p->height()* mark_scale) / 2.0);
++						jfloat h_trans= (jfloat)(doc_page_size_p->getLeft()- mark_page_size_p->getLeft()* mark_scale +
++																		 (doc_page_size_p->getWidth()- 
++																			mark_page_size_p->getWidth()* mark_scale) / 2.0);
++						jfloat v_trans= (jfloat)(doc_page_size_p->getBottom()- mark_page_size_p->getBottom()* mark_scale +
++																		 (doc_page_size_p->getHeight()- 
++																			mark_page_size_p->getHeight()* mark_scale) / 2.0);
+           
+ 						com::lowagie::text::pdf::PdfContentByte* content_byte_p= 
+ 							( background_b ) ? writer_p->getUnderContent( ii ) : writer_p->getOverContent( ii );
+@@ -2714,20 +2729,20 @@ TK_Session::create_output()
+ 																					 0, -1* mark_scale,
+ 																					 mark_scale, 0,
+ 																					 h_trans, 
+-																					 v_trans+ mark_page_size_p->height()* mark_scale );
++																					 v_trans+ mark_page_size_p->getHeight()* mark_scale );
+ 						}
+ 						else if( mark_page_rotation== 180 ) {
+ 							content_byte_p->addTemplate( mark_page_p, 
+ 																					 -1* mark_scale, 0,
+ 																					 0, -1* mark_scale,
+-																					 h_trans+ mark_page_size_p->width()* mark_scale, 
+-																					 v_trans+ mark_page_size_p->height()* mark_scale );
++																					 h_trans+ mark_page_size_p->getWidth()* mark_scale, 
++																					 v_trans+ mark_page_size_p->getHeight()* mark_scale );
+ 						}
+ 						else if( mark_page_rotation== 270 ) {
+ 							content_byte_p->addTemplate( mark_page_p, 
+ 																					 0, mark_scale,
+ 																					 -1* mark_scale, 0,
+-																					 h_trans+ mark_page_size_p->width()* mark_scale, v_trans );
++																					 h_trans+ mark_page_size_p->getWidth()* mark_scale, v_trans );
+ 						}
+ 					}
+ 				}
+@@ -2739,7 +2754,7 @@ TK_Session::create_output()
+ 				}
+ 
+ 				// done; write output
+-				writer_p->close();
++				writer_p->close(NULL);
+ 			}
+ 			break;
+ 
+@@ -2903,15 +2918,15 @@ Bug-Debian: http://bugs.debian.org/56059
+ 			JvCreateJavaVM(NULL);
+ 			JvAttachCurrentThread(NULL, NULL);
+ 
+-			JvInitClass(&java::System::class$);
+-			JvInitClass(&java::util::ArrayList::class$);
+-			JvInitClass(&java::util::Iterator::class$);
+-
+-			JvInitClass(&itext::PdfObject::class$);
+-			JvInitClass(&itext::PdfName::class$);
+-			JvInitClass(&itext::PdfDictionary::class$);
+-			JvInitClass(&itext::PdfOutline::class$);
+-			JvInitClass(&itext::PdfBoolean::class$);
++//			JvInitClass(&java::System::class$);
++//			JvInitClass(&java::util::ArrayList::class$);
++//			JvInitClass(&java::util::Iterator::class$);
++
++//			JvInitClass(&itext::PdfObject::class$);
++//			JvInitClass(&itext::PdfName::class$);
++//			JvInitClass(&itext::PdfDictionary::class$);
++//			JvInitClass(&itext::PdfOutline::class$);
++//			JvInitClass(&itext::PdfBoolean::class$);
+ 
+ 			TK_Session tk_session( argc, argv );
+ 
+diff -rupN pdftk-1.44-dist.old/pdftk/report.cc pdftk-1.44-dist/pdftk/report.cc
+--- pdftk-1.44-dist.old/pdftk/report.cc	2010-10-27 16:09:41.000000000 -0400
++++ pdftk-1.44-dist/pdftk/report.cc	2011-01-09 15:19:32.000000000 -0500
+@@ -55,8 +55,11 @@
+ 
+ #include "com/lowagie/text/Document.h"
+ #include "com/lowagie/text/Rectangle.h"
++// Ewww, PdfName has a field called NULL.
++#undef NULL
+ #include "com/lowagie/text/pdf/PdfObject.h"
+ #include "com/lowagie/text/pdf/PdfName.h"
++#define NULL __null
+ #include "com/lowagie/text/pdf/PdfString.h"
+ #include "com/lowagie/text/pdf/PdfNumber.h"
+ #include "com/lowagie/text/pdf/PdfArray.h"
+@@ -1363,11 +1366,12 @@ ReplaceXmp( itext::PdfReader* reader_p,
+ 				if( xmp_str_p ) {
+ 					xmp_str_p->put( itext::PdfName::TYPE, itext::PdfName::METADATA );
+ 					xmp_str_p->put( itext::PdfName::SUBTYPE, itext::PdfName::XML );
+-			
+-					itext::PdfIndirectReference* xmp_str_ref_p=
+-						(itext::PdfIndirectReference*)reader_p->getPRIndirectReference( xmp_str_p );
+ 
+-					catalog_p->put( itext::PdfName::METADATA, xmp_str_ref_p );
++					//                             FIXME: PdfReader.getPRIndirectReference is absent from itext-2.1.7			
++//					itext::PdfIndirectReference* xmp_str_ref_p=
++//						(itext::PdfIndirectReference*)reader_p->getPRIndirectReference( xmp_str_p );
++
++//					catalog_p->put( itext::PdfName::METADATA, xmp_str_ref_p );
+ 				}
+ 				else {
+ 					ret_val_b= false;

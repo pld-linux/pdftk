@@ -1,0 +1,47 @@
+--- pdftk/pdftk.cc	2009-04-09 18:07:27.000000000 +0100
++++ pdftk.old/pdftk.cc	2009-04-09 18:09:20.000000000 +0100
+@@ -2669,6 +2669,44 @@
+ 			 strcmp( argv[ii], "-h" )== 0 );
+ 	}
+ 
++  {
++    // Set up CLASSPATH so that we can find property files in
++    // itext.jar.  Do this the official way, calling build-classpath.
++
++    char new_classpath[4096];
++    char itext_classpath[1024];
++    char *environ_classpath = getenv ("CLASSPATH");
++
++    FILE *p = popen ("/usr/bin/build-classpath itext bcprov bcmail bctsp", "r");
++    if (!p)
++      {
++        perror ("Can't popen /usr/bin/build-classpath itext bcprov bcmail bctsp");
++        exit (1);
++      }
++
++    char *s = fgets(itext_classpath, sizeof itext_classpath, p);
++    if (!s)
++      {
++        perror ("Can't get ouput from /usr/bin/build-classpath itext bcprov bcmail bctsp");
++        exit (1);
++      }
++
++    char *nl = strchr (itext_classpath, '\n');
++    if (nl)
++      *nl = 0;
++
++    pclose (p);
++
++    strcpy (new_classpath, "CLASSPATH=");
++    strncat (new_classpath, itext_classpath, sizeof new_classpath);
++    if (environ_classpath)
++      {
++        strncat (new_classpath, ":", sizeof new_classpath);
++        strncat (new_classpath, environ_classpath, sizeof new_classpath);
++      }
++    putenv (new_classpath);
++  }
++
+ 	if( help_b ) {
+ 		describe_full();
+ 	}
