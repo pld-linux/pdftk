@@ -1,3 +1,4 @@
+%global		itextvers 2.1.7
 Summary:	pdftk - the pdf tool kit
 Summary(pl.UTF-8):	pdftk - Zestaw narzędzi dla plików PDF
 Name:		pdftk
@@ -14,12 +15,14 @@ BuildRequires:	binutils
 BuildRequires:	dos2unix
 BuildRequires:	jar
 BuildRequires:	gcc-java
+BuildRequires:	itext >= %{itextvers}
 BuildRequires:	jasper-devel
 BuildRequires:	libgcj-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libwmf-devel
 BuildRequires:	unzip
 Requires:	libgcj
+Requires:	itext >= 2.1.7-6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -55,7 +58,9 @@ uszkodzonych plików PDF (w miarę możliwości).
 
 %build
 unset CLASSPATH
-%{__make} -j1 -f Makefile.Redhat -C pdftk
+%{__make} -j1 -f Makefile.Redhat -C pdftk \
+	LIBDIR="%{_libdir}" \
+	ITEXTVERS="%{itextvers}" 
 
 %install
 rm -rf $RPM_BUILD_ROOT
