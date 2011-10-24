@@ -1,4 +1,4 @@
-%global		itextvers 2.1.7
+%define		itextvers 2.1.7
 Summary:	pdftk - the pdf tool kit
 Summary(pl.UTF-8):	pdftk - Zestaw narzędzi dla plików PDF
 Name:		pdftk
@@ -11,18 +11,17 @@ Source0:	http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/%{name}-%{version}-s
 Patch0:		%{name}-use-internal-itext.patch
 Patch1:		%{name}-classpath.patch
 URL:		http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/
-BuildRequires:	binutils
 BuildRequires:	dos2unix
-BuildRequires:	jar
 BuildRequires:	gcc-java
-BuildRequires:	itext >= %{itextvers}
+BuildRequires:	jar
 BuildRequires:	jasper-devel
+BuildRequires:	java-itext >= %{itextvers}
 BuildRequires:	libgcj-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libwmf-devel
 BuildRequires:	unzip
+Requires:	java-itext >= %{itextvers}
 Requires:	libgcj
-Requires:	itext >= 2.1.7-6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -54,20 +53,19 @@ uszkodzonych plików PDF (w miarę możliwości).
 %patch1 -p0
 
 # remove bundled libraries from source tree
-%{__rm} -r java
+%{__rm} -rv java
 
 %build
 unset CLASSPATH
 %{__make} -j1 -f Makefile.Redhat -C pdftk \
 	LIBDIR="%{_libdir}" \
-	ITEXTVERS="%{itextvers}" 
+	ITEXTVERS="%{itextvers}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_mandir}/man1
-install pdftk/pdftk $RPM_BUILD_ROOT%{_bindir}/pdftk
-install pdftk.1 $RPM_BUILD_ROOT%{_mandir}/man1/pdftk.1
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1}
+install -p pdftk/pdftk $RPM_BUILD_ROOT%{_bindir}/pdftk
+cp -p pdftk.1 $RPM_BUILD_ROOT%{_mandir}/man1/pdftk.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
