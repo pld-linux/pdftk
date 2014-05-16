@@ -12,8 +12,8 @@ Source0:	http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/%{name}-%{version}-s
 #Patch0:		%{name}-use-internal-itext.patch
 #Patch1:		%{name}-classpath.patch
 URL:		http://www.pdflabs.com/tools/pdftk-server/
-BuildRequires:	fastjar
 BuildRequires:	gcc-java
+BuildRequires:	jar
 #BuildRequires:	jasper-devel
 #BuildRequires:	java-itext >= %{itextvers}
 BuildRequires:	libgcj-devel
@@ -57,6 +57,7 @@ uszkodzonych plików PDF (w miarę możliwości).
 %build
 unset CLASSPATH
 %{__make} -j1 -f Makefile.Redhat -C pdftk \
+	GJAR=jar \
 	LIBDIR="%{_libdir}" \
 #	ITEXTVERS="%{itextvers}"
 
