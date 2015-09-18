@@ -4,7 +4,7 @@ Summary:	pdftk - the PDF tool kit
 Summary(pl.UTF-8):	pdftk - zestaw narzędzi dla plików PDF
 Name:		pdftk
 Version:	2.02
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Publishing
 Source0:	http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/%{name}-%{version}-src.zip
